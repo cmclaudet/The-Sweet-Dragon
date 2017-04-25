@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class sweetData : MonoBehaviour {
+public class sweetData {
 	public int type{get; private set;}
 	private int _stage;
 	public int stage{

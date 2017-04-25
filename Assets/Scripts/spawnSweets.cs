@@ -7,7 +7,7 @@ public class spawnSweets : MonoBehaviour {
 	public Transform sweetPrefab;
 	// Use this for initialization
 	void Start () {
-
+		spawnNewSweet();
 	}
 
 	// Update is called once per frame
