@@ -29,10 +29,15 @@ public class spawnSweets : MonoBehaviour {
 		sweetData thisSweetData = new sweetData(sweetParams.sweetTypeNames.Length, sweetParams.numberOfStages);
 		newSweet.GetComponent<sweetAttributes>().thisSweetData = thisSweetData;
 		newSweet.GetComponent<sweetAttributes>().thisSweetTypeStageImages = sweetParams.allImages[thisSweetData.type].stageImages;
+		setSweetInitialLocation(newSweet);
 	}
 
-	void getSweetInitialLocation(Transform sweet) {
-		//int sweetLane = Random.Range(0,laneNumber);
-
+	void setSweetInitialLocation(Transform sweet) {
+		int sweetLane = Random.Range(0,laneNumber);
+		float lanePixelWidth = (Screen.width)/(float)laneNumber;
+		float sweetXPixelPos = ((float)sweetLane + 0.5f)*lanePixelWidth;
+		float sweetYPixelPos = Screen.height;
+		Vector3 initialPosition = Camera.main.ScreenToWorldPoint(new Vector3(sweetXPixelPos, sweetYPixelPos));
+		sweet.position = initialPosition;
 	}
 }
