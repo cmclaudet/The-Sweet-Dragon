@@ -13,9 +13,10 @@ public class sweetAttributes : MonoBehaviour {
 	void setNewImage() {
 		GetComponent<SpriteRenderer>().sprite = thisSweetTypeStageImages[thisSweetData.stage];
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+	public void setNewStage(int newStage) {
+		thisSweetData.stage = newStage;
+		setNewImage();
 	}
+
 }
