@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class spawnSweets : MonoBehaviour {
 	public allSweetInformation sweetParams;
+	public levelData transformInfo;
 	public Transform sweetPrefab;
+	private int laneNumber;
+	private float moveSpeed;
+	private float spawnFrequency;
 	// Use this for initialization
 	void Start () {
-		spawnNewSweet();
+		laneNumber = transformInfo.laneNumber;
+		moveSpeed = transformInfo.spawnMoveSpeed;
+		spawnFrequency = transformInfo.spawnFrequency;
+		StartCoroutine(spawnAndDestroySweets());
 	}
 
-	// Update is called once per frame
-	void Update () {
-		
+	IEnumerator spawnAndDestroySweets() {
+		for (;;) {
+			spawnNewSweet();
+			yield return new WaitForSeconds(spawnFrequency);
+		}
 	}
 
 	void spawnNewSweet() {
@@ -20,5 +29,10 @@ public class spawnSweets : MonoBehaviour {
 		sweetData thisSweetData = new sweetData(sweetParams.sweetTypeNames.Length, sweetParams.numberOfStages);
 		newSweet.GetComponent<sweetAttributes>().thisSweetData = thisSweetData;
 		newSweet.GetComponent<sweetAttributes>().thisSweetTypeStageImages = sweetParams.allImages[thisSweetData.type].stageImages;
+	}
+
+	void getSweetInitialLocation(Transform sweet) {
+		//int sweetLane = Random.Range(0,laneNumber);
+
 	}
 }
