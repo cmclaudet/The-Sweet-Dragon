@@ -38,6 +38,6 @@ public class spawnSweets : MonoBehaviour {
 		float sweetXPixelPos = ((float)sweetLane + 0.5f)*lanePixelWidth;
 		float sweetYPixelPos = Screen.height;
 		Vector3 initialPosition = Camera.main.ScreenToWorldPoint(new Vector3(sweetXPixelPos, sweetYPixelPos));
-		sweet.position = initialPosition;
+		sweet.position = new Vector3 (initialPosition.x, initialPosition.y, 0);
 	}
 }
