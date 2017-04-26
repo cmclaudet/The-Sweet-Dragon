@@ -32,6 +32,7 @@ public class spawnSweets : MonoBehaviour {
 		newSweet.GetComponent<sweetAttributes>().thisSweetData = thisSweetData;
 		newSweet.GetComponent<sweetAttributes>().thisSweetTypeStageImages = sweetParams.allImages[thisSweetData.type].stageImages;
 		setSweetInitialLocation(newSweet);
+		setSweetSpeed(newSweet);
 	}
 
 	void setSweetInitialLocation(Transform sweet) {
@@ -40,6 +41,10 @@ public class spawnSweets : MonoBehaviour {
 		float sweetXPixelPos = ((float)sweetLane + 0.5f)*lanePixelWidth;
 		float initialXPos = Camera.main.ScreenToWorldPoint(new Vector3(sweetXPixelPos, 0)).x;
 		sweet.position = new Vector3 (initialXPos, initialYPos, 0);
+	}
+
+	void setSweetSpeed(Transform sweet) {
+		sweet.GetComponent<moveDown>().speed = moveSpeed;
 	}
 
 	float getInitialYPos() {
