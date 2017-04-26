@@ -9,11 +9,13 @@ public class spawnSweets : MonoBehaviour {
 	private int laneNumber;
 	private float moveSpeed;
 	private float spawnFrequency;
+	private float initialYPos;
 	// Use this for initialization
 	void Start () {
 		laneNumber = transformInfo.laneNumber;
 		moveSpeed = transformInfo.spawnMoveSpeed;
 		spawnFrequency = transformInfo.spawnFrequency;
+		initialYPos = getInitialYPos();
 		StartCoroutine(spawnAndDestroySweets());
 	}
 
@@ -36,8 +38,13 @@ public class spawnSweets : MonoBehaviour {
 		int sweetLane = Random.Range(0,laneNumber);
 		float lanePixelWidth = (Screen.width)/(float)laneNumber;
 		float sweetXPixelPos = ((float)sweetLane + 0.5f)*lanePixelWidth;
-		float sweetYPixelPos = Screen.height;
-		Vector3 initialPosition = Camera.main.ScreenToWorldPoint(new Vector3(sweetXPixelPos, sweetYPixelPos));
-		sweet.position = new Vector3 (initialPosition.x, initialPosition.y, 0);
+		float initialXPos = Camera.main.ScreenToWorldPoint(new Vector3(sweetXPixelPos, 0)).x;
+		sweet.position = new Vector3 (initialXPos, initialYPos, 0);
+	}
+
+	float getInitialYPos() {
+		float screenHeightWorld = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height)).y;
+		float initialYPos = screenHeightWorld + sweetPrefab.GetComponent<CircleCollider2D>().radius;
+		return initialYPos;
 	}
 }
