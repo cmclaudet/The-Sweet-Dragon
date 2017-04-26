@@ -12,9 +12,9 @@ public class spawnSweets : MonoBehaviour {
 	private float initialYPos;
 	// Use this for initialization
 	void Start () {
-		laneNumber = transformInfo.laneNumber;
+		laneNumber = transformInfo.gridSize.x;
 		moveSpeed = transformInfo.spawnMoveSpeed;
-		spawnFrequency = transformInfo.spawnFrequency;
+//		spawnFrequency = transformInfo.spawnFrequency;
 		initialYPos = getInitialYPos();
 		StartCoroutine(spawnAndDestroySweets());
 	}
@@ -22,7 +22,7 @@ public class spawnSweets : MonoBehaviour {
 	IEnumerator spawnAndDestroySweets() {
 		for (;;) {
 			spawnNewSweet();
-			yield return new WaitForSeconds(spawnFrequency);
+			yield return new WaitForSeconds(0.1f);
 		}
 	}
 
@@ -52,4 +52,6 @@ public class spawnSweets : MonoBehaviour {
 		float initialYPos = screenHeightWorld + sweetPrefab.GetComponent<CircleCollider2D>().radius;
 		return initialYPos;
 	}
+
+	
 }
