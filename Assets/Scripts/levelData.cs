@@ -20,7 +20,7 @@ public class levelData : MonoBehaviour {
 		}
 	}
 
-	void Start() {
+	void Awake() {
 		setXGridCoords();
 		setYGridCoords();
 	}

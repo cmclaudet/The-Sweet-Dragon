@@ -33,6 +33,9 @@ public class spawnSweets : MonoBehaviour {
 		sweetData thisSweetData = new sweetData(sweetParams.sweetTypeNames.Length, sweetParams.numberOfStages);
 		newSweet.GetComponent<sweetAttributes>().thisSweetData = thisSweetData;
 		newSweet.GetComponent<sweetAttributes>().thisSweetTypeStageImages = sweetParams.allImages[thisSweetData.type].stageImages;
+		newSweet.GetComponent<snapToGrid>().gridXPos = transformInfo.xGridCoords;
+		newSweet.GetComponent<snapToGrid>().gridYPos = transformInfo.yGridCoords;
+		newSweet.GetComponent<snapToGrid>().spawnFrequency = spawnFrequency;
 		setSweetInitialLocation(newSweet);
 		setSweetSpeed(newSweet);
 	}
