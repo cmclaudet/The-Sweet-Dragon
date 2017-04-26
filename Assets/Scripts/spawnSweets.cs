@@ -56,9 +56,7 @@ public class spawnSweets : MonoBehaviour {
 	float getSpawnFrequency() {
 		int gridHeight = transformInfo.gridSize.y;
 		float gridHeightPixel = Screen.height/(float)(gridHeight + 1);
-		Debug.Log(gridHeightPixel);
 		float gridHeightWorld = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height/2 + gridHeightPixel)).y;
-		Debug.Log(gridHeightWorld);
 		float spawnFreq = gridHeightWorld/moveSpeed;
 		return spawnFreq;
 	}
