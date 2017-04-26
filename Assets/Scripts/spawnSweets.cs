@@ -12,10 +12,10 @@ public class spawnSweets : MonoBehaviour {
 	private float initialYPos;
 	// Use this for initialization
 	void Start () {
-		laneNumber = transformInfo.laneNumber;
+		laneNumber = transformInfo.gridSize.x;
 		moveSpeed = transformInfo.spawnMoveSpeed;
-		spawnFrequency = transformInfo.spawnFrequency;
 		initialYPos = getInitialYPos();
+		spawnFrequency = getSpawnFrequency();
 		StartCoroutine(spawnAndDestroySweets());
 	}
 
@@ -32,6 +32,7 @@ public class spawnSweets : MonoBehaviour {
 		newSweet.GetComponent<sweetAttributes>().thisSweetData = thisSweetData;
 		newSweet.GetComponent<sweetAttributes>().thisSweetTypeStageImages = sweetParams.allImages[thisSweetData.type].stageImages;
 		setSweetInitialLocation(newSweet);
+		setSweetSpeed(newSweet);
 	}
 
 	void setSweetInitialLocation(Transform sweet) {
@@ -42,9 +43,21 @@ public class spawnSweets : MonoBehaviour {
 		sweet.position = new Vector3 (initialXPos, initialYPos, 0);
 	}
 
+	void setSweetSpeed(Transform sweet) {
+		sweet.GetComponent<moveDown>().speed = moveSpeed;
+	}
+
 	float getInitialYPos() {
 		float screenHeightWorld = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height)).y;
 		float initialYPos = screenHeightWorld + sweetPrefab.GetComponent<CircleCollider2D>().radius;
 		return initialYPos;
+	}
+
+	float getSpawnFrequency() {
+		int gridHeight = transformInfo.gridSize.y;
+		float gridHeightPixel = Screen.height/(float)(gridHeight + 1);
+		float gridHeightWorld = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height/2 + gridHeightPixel)).y;
+		float spawnFreq = gridHeightWorld/moveSpeed;
+		return spawnFreq;
 	}
 }
