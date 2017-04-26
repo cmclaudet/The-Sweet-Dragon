@@ -14,15 +14,15 @@ public class spawnSweets : MonoBehaviour {
 	void Start () {
 		laneNumber = transformInfo.gridSize.x;
 		moveSpeed = transformInfo.spawnMoveSpeed;
-//		spawnFrequency = transformInfo.spawnFrequency;
 		initialYPos = getInitialYPos();
+		spawnFrequency = getSpawnFrequency();
 		StartCoroutine(spawnAndDestroySweets());
 	}
 
 	IEnumerator spawnAndDestroySweets() {
 		for (;;) {
 			spawnNewSweet();
-			yield return new WaitForSeconds(0.1f);
+			yield return new WaitForSeconds(spawnFrequency);
 		}
 	}
 
@@ -53,5 +53,13 @@ public class spawnSweets : MonoBehaviour {
 		return initialYPos;
 	}
 
-	
+	float getSpawnFrequency() {
+		int gridHeight = transformInfo.gridSize.y;
+		float gridHeightPixel = Screen.height/(float)(gridHeight + 1);
+		Debug.Log(gridHeightPixel);
+		float gridHeightWorld = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height/2 + gridHeightPixel)).y;
+		Debug.Log(gridHeightWorld);
+		float spawnFreq = gridHeightWorld/moveSpeed;
+		return spawnFreq;
+	}
 }
