@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class moveGridDown : MonoBehaviour {
-	public GameObject grid;
 	[HideInInspector]public float moveSpeed;
+	[HideInInspector]public GameObject[] gridPointObjects;
 	// Update is called once per frame
+	void Start() {
+		gridPointObjects = GameObject.FindGameObjectsWithTag("gridPoint");
+	}
 	void FixedUpdate () {
-		foreach (Transform gridPointObject in grid.transform) {
-			gridPointObject.position = new Vector2(gridPointObject.position.x, gridPointObject.position.y * moveSpeed * Time.fixedDeltaTime);
+		foreach (GameObject gridPointObject in gridPointObjects) {
+			gridPointObject.transform.position = new Vector3(gridPointObject.transform.position.x, gridPointObject.transform.position.y + moveSpeed*Time.fixedDeltaTime);
 		}
 	}
 }

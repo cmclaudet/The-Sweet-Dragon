@@ -6,7 +6,6 @@ using UnityEngine;
 public class levelData : MonoBehaviour {
 	public Grid gridSize;
 	public float gridMoveSpeed;
-	public GameObject grid;
 
 	public float[] xGridCoords{get; private set;}
 	public float[] yGridCoords{get; private set;}
@@ -54,15 +53,16 @@ public class levelData : MonoBehaviour {
 			for (int j = 0; j < yGridCoords.Length; j++) {
 				Vector2 newGridPoint = new Vector2(xGridCoords[i], yGridCoords[j]);
 				gridPoints.Add(newGridPoint);
-				createNewGridObject(newGridPoint);
+				GameObject newGridPointObject = createNewGridObject(newGridPoint);
 			}
 		}
 	}
 
-	void createNewGridObject(Vector2 objectPos) {
+	GameObject createNewGridObject(Vector2 objectPos) {
 		GameObject gridPoint = new GameObject();
 		gridPoint.transform.position = new Vector3(objectPos.x, objectPos.y, 0);
-		//gridPoint.transform.SetParent(grid.transform);
+		gridPoint.gameObject.tag = "gridPoint";
+		return gridPoint;
 	}
 
 	void OnValidate() {
