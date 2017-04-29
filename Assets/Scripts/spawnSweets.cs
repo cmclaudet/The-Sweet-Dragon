@@ -22,41 +22,35 @@ public class spawnSweets : MonoBehaviour {
 	IEnumerator spawnAndDestroySweets() {
 		for (;;) {
 			spawnNewGridPoints();
-			spawnNewSweet();
 			yield return new WaitForSeconds(spawnFrequency);
 		}
 	}
 
 	void spawnNewGridPoints() {
-		foreach (float xPoint in transformInfo.GetComponent<levelData>().xGridCoords) {
+		float[] xGridPoints = transformInfo.GetComponent<levelData>().xGridCoords;
+		GameObject[] newGridPointObjects = new GameObject[xGridPoints.Length];
+		for (int i = 0; i < xGridPoints.Length; i++) {
 			GameObject newGridObject = new GameObject();
-			newGridObject.transform.position = new Vector3(xPoint, initialYPos, 0);
+			newGridObject.transform.position = new Vector3(xGridPoints[i], initialYPos, 0);
 			newGridObject.gameObject.tag = "gridPoint";
 			transformInfo.GetComponent<moveGridDown>().gridPointObjects.Add(newGridObject);
+			newGridPointObjects[i] = newGridObject;
 		}
+		spawnNewSweet(newGridPointObjects);
 	}
 
-	void spawnNewSweet() {
+	void spawnNewSweet(GameObject[] newGridPointObjects) {
 		Transform newSweet = Instantiate(sweetPrefab);
 		sweetData thisSweetData = new sweetData(sweetParams.sweetTypeNames.Length, sweetParams.numberOfStages);
 		newSweet.GetComponent<sweetAttributes>().thisSweetData = thisSweetData;
 		newSweet.GetComponent<sweetAttributes>().thisSweetTypeStageImages = sweetParams.allImages[thisSweetData.type].stageImages;
 		newSweet.GetComponent<snapToGrid>().spawnFrequency = spawnFrequency;
-		setSweetInitialLocation(newSweet);
-		setSweetToGrid(newSweet);
-	}
-
-	void setSweetInitialLocation(Transform sweet) {
-		int sweetLane = Random.Range(0,laneNumber);
-		float lanePixelWidth = (Screen.width)/(float)laneNumber;
-		float sweetXPixelPos = ((float)sweetLane + 0.5f)*lanePixelWidth;
-		float initialXPos = Camera.main.ScreenToWorldPoint(new Vector3(sweetXPixelPos, 0)).x;
-		sweet.position = new Vector3 (initialXPos, initialYPos, 0);
-	}
-
-	void setSweetToGrid(Transform sweet) {
 		
+		int lane = Random.Range(0, laneNumber);
+		newSweet.transform.SetParent(newGridPointObjects[lane].transform);
+		newSweet.transform.localPosition = Vector3.zero;
 	}
+
 
 	float getGridHeightWorld() {
 		int gridHeight = transformInfo.GetComponent<levelData>().gridSize.y;
