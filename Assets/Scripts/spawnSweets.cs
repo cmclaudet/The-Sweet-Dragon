@@ -44,7 +44,6 @@ public class spawnSweets : MonoBehaviour {
 		sweetData thisSweetData = new sweetData(sweetParams.sweetTypeNames.Length, sweetParams.numberOfStages);
 		newSweet.GetComponent<sweetAttributes>().thisSweetData = thisSweetData;
 		newSweet.GetComponent<sweetAttributes>().thisSweetTypeStageImages = sweetParams.allImages[thisSweetData.type].stageImages;
-		newSweet.GetComponent<snapToGrid>().spawnFrequency = spawnFrequency;
 		
 		int lane = Random.Range(0, laneNumber);
 		newSweet.transform.SetParent(newGridPointObjects[lane].transform);
