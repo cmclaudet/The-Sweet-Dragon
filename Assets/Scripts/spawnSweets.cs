@@ -9,11 +9,13 @@ public class spawnSweets : MonoBehaviour {
 	private int laneNumber;
 	private float spawnFrequency;
 	private float gridHeightWorld;
+	private float gridWidthWorld;
 	private float initialYPos;
 	// Use this for initialization
 	void Start () {
 		laneNumber = transformInfo.GetComponent<levelData>().gridSize.x;
-		gridHeightWorld = getGridHeightWorld();
+		gridHeightWorld = transformInfo.GetComponent<levelData>().gridHeightWorld;
+		gridWidthWorld = transformInfo.GetComponent<levelData>().gridWidthWorld;
 		initialYPos = getInitialYPos();
 		spawnFrequency = getSpawnFrequency();
 		StartCoroutine(spawnCountDown());
@@ -50,18 +52,12 @@ public class spawnSweets : MonoBehaviour {
 		newSweet.GetComponent<sweetAttributes>().thisSweetData = thisSweetData;
 		newSweet.GetComponent<sweetAttributes>().thisSweetTypeStageImages = sweetParams.allImages[thisSweetData.type].stageImages;
 		newSweet.GetComponent<snapToGrid>().gridPointObjects = transformInfo.GetComponent<moveGridDown>().gridPointObjects;
+		newSweet.GetComponent<snapToGrid>().laneNumber = laneNumber;
+		newSweet.GetComponent<snapToGrid>().gridSizeWorld = new Vector2(gridWidthWorld, gridHeightWorld);
 		
 		int lane = Random.Range(0, laneNumber);
 		newSweet.transform.SetParent(newGridPointObjects[lane].transform);
 		newSweet.transform.localPosition = Vector3.zero;
-	}
-
-
-	float getGridHeightWorld() {
-		int gridHeight = transformInfo.GetComponent<levelData>().gridSize.y;
-		float gridHeightPixel = Screen.height/(float)(gridHeight + 1);
-		float gridHeightWorld = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height/2 + gridHeightPixel)).y;
-		return gridHeightWorld;
 	}
 
 	float getInitialYPos() {

@@ -9,6 +9,8 @@ public class levelData : MonoBehaviour {
 
 	public float[] xGridCoords{get; private set;}
 	public float[] yGridCoords{get; private set;}
+	public float gridWidthWorld{get; private set;}
+	public float gridHeightWorld{get; private set;}
 
 	[HideInInspector]public List<Vector2> gridPoints;
 
@@ -28,10 +30,13 @@ public class levelData : MonoBehaviour {
 		setYGridCoords();
 		GetComponent<moveGridDown>().moveSpeed = gridMoveSpeed;
 		setGridPoints();
+		Debug.Log(gridWidthWorld);
+		Debug.Log(gridHeightWorld);
 	}
 
 	void setXGridCoords() {
 		float gridWidthScreen = Screen.width/gridSize.x;
+		gridWidthWorld = Camera.main.ScreenToWorldPoint(new Vector3((1.5f)*gridWidthScreen, 0)).x - Camera.main.ScreenToWorldPoint(new Vector3((0.5f)*gridWidthScreen, 0)).x;
 		xGridCoords = new float[gridSize.x];
 		for (int i = 0; i < gridSize.x; i++) {
 			float gridScreenXPos = (i+0.5f)*gridWidthScreen;
@@ -41,6 +46,7 @@ public class levelData : MonoBehaviour {
 
 	void setYGridCoords() {
 		float gridHeightScreen = Screen.height/gridSize.y;
+		gridHeightWorld = Camera.main.ScreenToWorldPoint(new Vector3(0, (1.5f)*gridHeightScreen, 0)).y - Camera.main.ScreenToWorldPoint(new Vector3(0, (0.5f)*gridHeightScreen, 0)).y;
 		yGridCoords = new float[gridSize.y];
 		for (int i = 0; i < gridSize.y; i++) {
 			float gridScreenYPos = (0.5f+i)*gridHeightScreen;
