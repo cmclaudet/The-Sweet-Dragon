@@ -9,6 +9,8 @@ public class snapToGrid : MonoBehaviour {
 			if (transform.position.y < gridPointObject.transform.position.y) {
 				if (transform.position.x < gridPointObject.transform.position.x) {
 					transform.SetParent(gridPointObject.transform);
+					transform.localPosition = Vector3.zero;
+				
 				}
 			}
 		}

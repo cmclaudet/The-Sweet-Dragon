@@ -49,9 +49,9 @@ public class levelData : MonoBehaviour {
 	}
 
 	void setGridPoints() {
-		for (int i = 0; i < xGridCoords.Length; i++) {
-			for (int j = 0; j < yGridCoords.Length; j++) {
-				Vector2 newGridPoint = new Vector2(xGridCoords[i], yGridCoords[j]);
+		for (int i = 0; i < yGridCoords.Length; i++) {
+			for (int j = 0; j < xGridCoords.Length; j++) {
+				Vector2 newGridPoint = new Vector2(xGridCoords[j], yGridCoords[i]);
 				gridPoints.Add(newGridPoint);
 				createNewGridObject(newGridPoint);
 			}

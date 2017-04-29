@@ -16,14 +16,19 @@ public class spawnSweets : MonoBehaviour {
 		gridHeightWorld = getGridHeightWorld();
 		initialYPos = getInitialYPos();
 		spawnFrequency = getSpawnFrequency();
-		StartCoroutine(spawnAndDestroySweets());
+		StartCoroutine(spawnCountDown());
 	}
 
 	IEnumerator spawnAndDestroySweets() {
 		for (;;) {
-			spawnNewGridPoints();
+			spawnNewGridPoints();	
 			yield return new WaitForSeconds(spawnFrequency);
 		}
+	}
+
+	IEnumerator spawnCountDown() {
+		yield return new WaitForSeconds(0.5f);
+		StartCoroutine(spawnAndDestroySweets());
 	}
 
 	void spawnNewGridPoints() {
