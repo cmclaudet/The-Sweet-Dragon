@@ -28,6 +28,33 @@ public class snapToGrid : MonoBehaviour {
 	}
 
 	void snapYPos() {
+		
+		float yPosWithoutTime = 0;
+		for (int i = 1; i < gridYPos.Length; i++) {
+			if (transform.position.y > gridYPos[i]) {
+				yPosWithoutTime = gridYPos[i] + gridDimensions.y/2;
+				break;
+			}
+		}
+		//Debug.Log(yPosWithoutTime);
 
+		float timeSinceGridPointPass = Time.timeSinceLevelLoad%spawnFrequency;
+		float snapPointDistanceFromGrid = gridDimensions.y*timeSinceGridPointPass/spawnFrequency;
+
+		if (snapPointDistanceFromGrid < gridDimensions.y/2) {
+			float snapPosY = yPosWithoutTime - snapPointDistanceFromGrid;
+			if (transform.position.y < snapPosY + gridDimensions.y/2) {
+				transform.position = new Vector3(transform.position.x, snapPosY, transform.position.z);
+			} else {
+				transform.position = new Vector3(transform.position.x, snapPosY + gridDimensions.y, transform.position.z);
+			}
+		} else {
+			float snapPosY = yPosWithoutTime + gridDimensions.y - snapPointDistanceFromGrid;
+			if (transform.position.y > snapPosY - gridDimensions.y/2) {
+				transform.position = new Vector3(transform.position.x, snapPosY, transform.position.z);
+			} else {
+				transform.position = new Vector3(transform.position.x, snapPosY - gridDimensions.y, transform.position.z);
+			}
+		}
 	}
 }
