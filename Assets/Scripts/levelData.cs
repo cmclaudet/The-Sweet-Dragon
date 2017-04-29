@@ -30,8 +30,6 @@ public class levelData : MonoBehaviour {
 		setYGridCoords();
 		GetComponent<moveGridDown>().moveSpeed = gridMoveSpeed;
 		setGridPoints();
-		Debug.Log(gridWidthWorld);
-		Debug.Log(gridHeightWorld);
 	}
 
 	void setXGridCoords() {

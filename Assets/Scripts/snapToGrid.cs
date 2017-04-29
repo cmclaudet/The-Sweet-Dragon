@@ -12,9 +12,35 @@ public class snapToGrid : MonoBehaviour {
 				if (transform.position.x > gridPointObjects[i].transform.position.x - gridSizeWorld.x/2 && transform.position.x < gridPointObjects[i].transform.position.x + gridSizeWorld.x/2) {
 					transform.SetParent(gridPointObjects[i].transform);
 					transform.localPosition = Vector3.zero;
+					checkOtherSweets();
 				}
 			}
 		}
+	}
+
+	void checkOtherSweets() {
+		sweetAttributes[] sweetsOnGridPoint = transform.parent.gameObject.GetComponentsInChildren<sweetAttributes>();
+		if (sweetsOnGridPoint.Length > 1) {
+			if (sweetsOnGridPoint[0].CompareTag("sweet") && gameObject.CompareTag("sweet")) {
+				if (sweetsOnGridPoint[0].GetComponent<sweetAttributes>().thisSweetData.type == GetComponent<sweetAttributes>().thisSweetData.type) {
+					mergeSweets(sweetsOnGridPoint[0].transform, gameObject.transform);
+				} else {
+					Destroy(transform.gameObject);
+				}
+			} else if (sweetsOnGridPoint[0].CompareTag("sweet") && gameObject.CompareTag("rock")) {
+				Destroy(sweetsOnGridPoint[0].gameObject);
+			} else if (sweetsOnGridPoint[0].CompareTag("rock") && gameObject.CompareTag("sweet")) {
+				Destroy(gameObject);
+			} else {
+				Destroy(gameObject);
+			}
+		}
+	}
+
+	void mergeSweets(Transform sweet1, Transform sweet2) {
+		int newStage = sweet1.GetComponent<sweetAttributes>().thisSweetData.stage + sweet2.GetComponent<sweetAttributes>().thisSweetData.stage;
+		sweet1.GetComponent<sweetAttributes>().setNewStage(newStage);
+		Destroy(sweet2.gameObject);
 	}
 
 }

@@ -19,13 +19,13 @@ public class sweetData {
 	}
 	private int _numberOfStages;
 	public int sweetValue() {
-		return _stage*2;
+		return _stage;
 	}
 
 	public sweetData(int numberOfSweetTypes, int totalStages) {
 		System.Random typeNumber = new System.Random();
 		type = typeNumber.Next(0, numberOfSweetTypes);
-		_stage = 0;
+		_stage = 1;
 		_numberOfStages = totalStages;
 	}
 

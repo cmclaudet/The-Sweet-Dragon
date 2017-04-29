@@ -11,7 +11,7 @@ public class sweetAttributes : MonoBehaviour {
 	}
 
 	void setNewImage() {
-		GetComponent<SpriteRenderer>().sprite = thisSweetTypeStageImages[thisSweetData.stage];
+		GetComponent<SpriteRenderer>().sprite = thisSweetTypeStageImages[thisSweetData.stage - 1];
 	}
 
 	public void setNewStage(int newStage) {
