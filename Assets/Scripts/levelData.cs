@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//creates grid with set set in the inspector
 public class levelData : MonoBehaviour {
 	public Grid gridSize;
-	public float spawnMoveSpeed;
+	public float gridMoveSpeed;
+	public GameObject grid;
 
 	public float[] xGridCoords{get; private set;}
 	public float[] yGridCoords{get; private set;}
+
+	[HideInInspector]public List<Vector2> gridPoints;
 
 	[System.Serializable]
 	public struct Grid {
@@ -23,6 +27,8 @@ public class levelData : MonoBehaviour {
 	void Awake() {
 		setXGridCoords();
 		setYGridCoords();
+		GetComponent<moveGridDown>().moveSpeed = gridMoveSpeed;
+		setGridPoints();
 	}
 
 	void setXGridCoords() {
@@ -43,6 +49,22 @@ public class levelData : MonoBehaviour {
 		}
 	}
 
+	void setGridPoints() {
+		for (int i = 0; i < xGridCoords.Length; i++) {
+			for (int j = 0; j < yGridCoords.Length; j++) {
+				Vector2 newGridPoint = new Vector2(xGridCoords[i], yGridCoords[j]);
+				gridPoints.Add(newGridPoint);
+				createNewGridObject(newGridPoint);
+			}
+		}
+	}
+
+	void createNewGridObject(Vector2 objectPos) {
+		GameObject gridPoint = new GameObject();
+		gridPoint.transform.position = new Vector3(objectPos.x, objectPos.y, 0);
+		//gridPoint.transform.SetParent(grid.transform);
+	}
+
 	void OnValidate() {
 		if (gridSize.x % 2 == 0) {
 			Debug.LogWarning("Grid width must be odd.");
@@ -56,9 +78,9 @@ public class levelData : MonoBehaviour {
 			Debug.LogWarning("Grid length must be positive.");
 			gridSize.y *= -1;
 		}
-		if (spawnMoveSpeed < 0) {
+		if (gridMoveSpeed < 0) {
 			Debug.LogWarning("Move speed must be greater than 0.");
-			spawnMoveSpeed *= -1;
+			gridMoveSpeed *= -1;
 		}
 	}
 

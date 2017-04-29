@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class snapToGrid : MonoBehaviour {
-	[HideInInspector]public float[] gridXPos;
-	[HideInInspector]public float[] gridYPos;
+	[HideInInspector]public List<Vector2> gridPoints;
 	[HideInInspector]public float spawnFrequency;
 	private Vector2 gridDimensions;
-
+/* 
 	void Start() {
 		gridDimensions = new Vector2(gridXPos[1] - gridXPos[0], gridYPos[0] - gridYPos[1]);
 	}
@@ -57,4 +56,5 @@ public class snapToGrid : MonoBehaviour {
 			}
 		}
 	}
+	*/
 }

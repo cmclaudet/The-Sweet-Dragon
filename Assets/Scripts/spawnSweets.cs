@@ -7,7 +7,6 @@ public class spawnSweets : MonoBehaviour {
 	public levelData transformInfo;
 	public Transform sweetPrefab;
 	private int laneNumber;
-	private float moveSpeed;
 	private float spawnFrequency;
 	private float gridHeightWorld;
 	private float initialYPos;
@@ -15,20 +14,10 @@ public class spawnSweets : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		laneNumber = transformInfo.gridSize.x;
-		moveSpeed = transformInfo.spawnMoveSpeed;
-		setGridPoints();
 		gridHeightWorld = getGridHeightWorld();
 		initialYPos = getInitialYPos();
 		spawnFrequency = getSpawnFrequency();
 		StartCoroutine(spawnAndDestroySweets());
-	}
-
-	void setGridPoints() {
-		for (int i = 0; i < transformInfo.xGridCoords.Length; i++) {
-			for (int j = 0; j < transformInfo.yGridCoords.Length; j++) {
-				gridPoints.Add(new Vector2(transformInfo.xGridCoords[i], transformInfo.yGridCoords[j]));
-			}
-		}
 	}
 
 	IEnumerator spawnAndDestroySweets() {
@@ -50,11 +39,10 @@ public class spawnSweets : MonoBehaviour {
 		sweetData thisSweetData = new sweetData(sweetParams.sweetTypeNames.Length, sweetParams.numberOfStages);
 		newSweet.GetComponent<sweetAttributes>().thisSweetData = thisSweetData;
 		newSweet.GetComponent<sweetAttributes>().thisSweetTypeStageImages = sweetParams.allImages[thisSweetData.type].stageImages;
-		newSweet.GetComponent<snapToGrid>().gridXPos = transformInfo.xGridCoords;
-		newSweet.GetComponent<snapToGrid>().gridYPos = transformInfo.yGridCoords;
+		newSweet.GetComponent<snapToGrid>().gridPoints = gridPoints;
 		newSweet.GetComponent<snapToGrid>().spawnFrequency = spawnFrequency;
 		setSweetInitialLocation(newSweet);
-		setSweetSpeed(newSweet);
+		setSweetToGrid(newSweet);
 	}
 
 	void setSweetInitialLocation(Transform sweet) {
@@ -65,8 +53,8 @@ public class spawnSweets : MonoBehaviour {
 		sweet.position = new Vector3 (initialXPos, initialYPos, 0);
 	}
 
-	void setSweetSpeed(Transform sweet) {
-		sweet.GetComponent<moveDown>().speed = moveSpeed;
+	void setSweetToGrid(Transform sweet) {
+		
 	}
 
 	float getGridHeightWorld() {
@@ -83,7 +71,7 @@ public class spawnSweets : MonoBehaviour {
 	}
 
 	float getSpawnFrequency() {
-		float spawnFreq = gridHeightWorld/moveSpeed;
+		float spawnFreq = gridHeightWorld/transformInfo.gridMoveSpeed;
 		return spawnFreq;
 	}
 }
