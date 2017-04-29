@@ -53,16 +53,15 @@ public class levelData : MonoBehaviour {
 			for (int j = 0; j < yGridCoords.Length; j++) {
 				Vector2 newGridPoint = new Vector2(xGridCoords[i], yGridCoords[j]);
 				gridPoints.Add(newGridPoint);
-				GameObject newGridPointObject = createNewGridObject(newGridPoint);
+				createNewGridObject(newGridPoint);
 			}
 		}
 	}
 
-	GameObject createNewGridObject(Vector2 objectPos) {
+	void createNewGridObject(Vector2 objectPos) {
 		GameObject gridPoint = new GameObject();
 		gridPoint.transform.position = new Vector3(objectPos.x, objectPos.y, 0);
 		gridPoint.gameObject.tag = "gridPoint";
-		return gridPoint;
 	}
 
 	void OnValidate() {

@@ -12,9 +12,10 @@ public class moveGridDown : MonoBehaviour {
 			gridPointObjects.Add(gridObject);
 		}
 	}
+
 	void FixedUpdate () {
 		foreach (GameObject gridPointObject in gridPointObjects) {
-			gridPointObject.transform.position = new Vector3(gridPointObject.transform.position.x, gridPointObject.transform.position.y + moveSpeed*Time.fixedDeltaTime);
+			gridPointObject.transform.position = new Vector3(gridPointObject.transform.position.x, gridPointObject.transform.position.y - moveSpeed*Time.fixedDeltaTime);
 		}
 	}
 }

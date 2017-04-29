@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class spawnSweets : MonoBehaviour {
 	public allSweetInformation sweetParams;
-	public levelData transformInfo;
+	public GameObject transformInfo;
 	public Transform sweetPrefab;
 	private int laneNumber;
 	private float spawnFrequency;
@@ -12,7 +12,7 @@ public class spawnSweets : MonoBehaviour {
 	private float initialYPos;
 	// Use this for initialization
 	void Start () {
-		laneNumber = transformInfo.gridSize.x;
+		laneNumber = transformInfo.GetComponent<levelData>().gridSize.x;
 		gridHeightWorld = getGridHeightWorld();
 		initialYPos = getInitialYPos();
 		spawnFrequency = getSpawnFrequency();
@@ -28,10 +28,11 @@ public class spawnSweets : MonoBehaviour {
 	}
 
 	void spawnNewGridPoints() {
-		foreach (float xPoint in transformInfo.xGridCoords) {
+		foreach (float xPoint in transformInfo.GetComponent<levelData>().xGridCoords) {
 			GameObject newGridObject = new GameObject();
 			newGridObject.transform.position = new Vector3(xPoint, initialYPos, 0);
 			newGridObject.gameObject.tag = "gridPoint";
+			transformInfo.GetComponent<moveGridDown>().gridPointObjects.Add(newGridObject);
 		}
 	}
 
@@ -58,7 +59,7 @@ public class spawnSweets : MonoBehaviour {
 	}
 
 	float getGridHeightWorld() {
-		int gridHeight = transformInfo.gridSize.y;
+		int gridHeight = transformInfo.GetComponent<levelData>().gridSize.y;
 		float gridHeightPixel = Screen.height/(float)(gridHeight + 1);
 		float gridHeightWorld = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height/2 + gridHeightPixel)).y;
 		return gridHeightWorld;
@@ -71,7 +72,7 @@ public class spawnSweets : MonoBehaviour {
 	}
 
 	float getSpawnFrequency() {
-		float spawnFreq = gridHeightWorld/transformInfo.gridMoveSpeed;
+		float spawnFreq = gridHeightWorld/transformInfo.GetComponent<levelData>().gridMoveSpeed;
 		return spawnFreq;
 	}
 }
