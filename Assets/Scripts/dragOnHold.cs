@@ -18,6 +18,7 @@ public class dragOnHold : MonoBehaviour {
             if(hitInfo)
             {
 				if (hitInfo.transform.gameObject == gameObject) {
+					transform.parent = null;
                 	dragging = true;
 				}
             }
@@ -30,7 +31,7 @@ public class dragOnHold : MonoBehaviour {
 			transform.position = new Vector3 (fingerPos.x, fingerPos.y, transform.position.z);
 			if (Input.GetTouch(0).phase == TouchPhase.Ended) {
 				dragging = false;
-//				GetComponent<snapToGrid>().snapPosition();
+				GetComponent<snapToGrid>().snapSweet();
 			}
 		}
 	}
