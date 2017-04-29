@@ -27,18 +27,18 @@ public class levelData : MonoBehaviour {
 
 	void setXGridCoords() {
 		float gridWidthScreen = Screen.width/gridSize.x;
-		xGridCoords = new float[gridSize.x + 1];
-		for (int i = 0; i <= gridSize.x; i++) {
-			float gridScreenXPos = i*gridWidthScreen;
+		xGridCoords = new float[gridSize.x];
+		for (int i = 0; i < gridSize.x; i++) {
+			float gridScreenXPos = (i+0.5f)*gridWidthScreen;
 			xGridCoords[i] = Camera.main.ScreenToWorldPoint(new Vector3(gridScreenXPos, 0)).x;
 		}
 	}
 
 	void setYGridCoords() {
-		float gridHeightScreen = Screen.height/(gridSize.y + 1);
-		yGridCoords = new float[gridSize.y + 1];
-		for (int i = 0; i <= gridSize.y; i++) {
-			float gridScreenYPos = Screen.height - i*gridHeightScreen;
+		float gridHeightScreen = Screen.height/gridSize.y;
+		yGridCoords = new float[gridSize.y];
+		for (int i = 0; i < gridSize.y; i++) {
+			float gridScreenYPos = (0.5f+i)*gridHeightScreen;
 			yGridCoords[i] = Camera.main.ScreenToWorldPoint(new Vector3(0, gridScreenYPos)).y;
 		}
 	}
