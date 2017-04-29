@@ -4,17 +4,15 @@ using UnityEngine;
 
 public class spawnSweets : MonoBehaviour {
 	public allSweetInformation sweetParams;
-	public levelData transformInfo;
+	public GameObject transformInfo;
 	public Transform sweetPrefab;
 	private int laneNumber;
-	private float moveSpeed;
 	private float spawnFrequency;
 	private float gridHeightWorld;
 	private float initialYPos;
 	// Use this for initialization
 	void Start () {
-		laneNumber = transformInfo.gridSize.x;
-		moveSpeed = transformInfo.spawnMoveSpeed;
+		laneNumber = transformInfo.GetComponent<levelData>().gridSize.x;
 		gridHeightWorld = getGridHeightWorld();
 		initialYPos = getInitialYPos();
 		spawnFrequency = getSpawnFrequency();
@@ -23,34 +21,39 @@ public class spawnSweets : MonoBehaviour {
 
 	IEnumerator spawnAndDestroySweets() {
 		for (;;) {
-			spawnNewSweet();
+			spawnNewGridPoints();
 			yield return new WaitForSeconds(spawnFrequency);
 		}
 	}
 
-	void spawnNewSweet() {
+	void spawnNewGridPoints() {
+		float[] xGridPoints = transformInfo.GetComponent<levelData>().xGridCoords;
+		GameObject[] newGridPointObjects = new GameObject[xGridPoints.Length];
+		for (int i = 0; i < xGridPoints.Length; i++) {
+			GameObject newGridObject = new GameObject();
+			newGridObject.transform.position = new Vector3(xGridPoints[i], initialYPos, 0);
+			newGridObject.gameObject.tag = "gridPoint";
+			transformInfo.GetComponent<moveGridDown>().gridPointObjects.Add(newGridObject);
+			newGridPointObjects[i] = newGridObject;
+		}
+		spawnNewSweet(newGridPointObjects);
+	}
+
+	void spawnNewSweet(GameObject[] newGridPointObjects) {
 		Transform newSweet = Instantiate(sweetPrefab);
 		sweetData thisSweetData = new sweetData(sweetParams.sweetTypeNames.Length, sweetParams.numberOfStages);
 		newSweet.GetComponent<sweetAttributes>().thisSweetData = thisSweetData;
 		newSweet.GetComponent<sweetAttributes>().thisSweetTypeStageImages = sweetParams.allImages[thisSweetData.type].stageImages;
-		setSweetInitialLocation(newSweet);
-		setSweetSpeed(newSweet);
+		newSweet.GetComponent<snapToGrid>().spawnFrequency = spawnFrequency;
+		
+		int lane = Random.Range(0, laneNumber);
+		newSweet.transform.SetParent(newGridPointObjects[lane].transform);
+		newSweet.transform.localPosition = Vector3.zero;
 	}
 
-	void setSweetInitialLocation(Transform sweet) {
-		int sweetLane = Random.Range(0,laneNumber);
-		float lanePixelWidth = (Screen.width)/(float)laneNumber;
-		float sweetXPixelPos = ((float)sweetLane + 0.5f)*lanePixelWidth;
-		float initialXPos = Camera.main.ScreenToWorldPoint(new Vector3(sweetXPixelPos, 0)).x;
-		sweet.position = new Vector3 (initialXPos, initialYPos, 0);
-	}
-
-	void setSweetSpeed(Transform sweet) {
-		sweet.GetComponent<moveDown>().speed = moveSpeed;
-	}
 
 	float getGridHeightWorld() {
-		int gridHeight = transformInfo.gridSize.y;
+		int gridHeight = transformInfo.GetComponent<levelData>().gridSize.y;
 		float gridHeightPixel = Screen.height/(float)(gridHeight + 1);
 		float gridHeightWorld = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height/2 + gridHeightPixel)).y;
 		return gridHeightWorld;
@@ -63,7 +66,7 @@ public class spawnSweets : MonoBehaviour {
 	}
 
 	float getSpawnFrequency() {
-		float spawnFreq = gridHeightWorld/moveSpeed;
+		float spawnFreq = gridHeightWorld/transformInfo.GetComponent<levelData>().gridMoveSpeed;
 		return spawnFreq;
 	}
 }
