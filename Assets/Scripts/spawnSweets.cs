@@ -11,20 +11,37 @@ public class spawnSweets : MonoBehaviour {
 	private float spawnFrequency;
 	private float gridHeightWorld;
 	private float initialYPos;
+	private List<Vector2> gridPoints = new List<Vector2>();
 	// Use this for initialization
 	void Start () {
 		laneNumber = transformInfo.gridSize.x;
 		moveSpeed = transformInfo.spawnMoveSpeed;
+		setGridPoints();
 		gridHeightWorld = getGridHeightWorld();
 		initialYPos = getInitialYPos();
 		spawnFrequency = getSpawnFrequency();
 		StartCoroutine(spawnAndDestroySweets());
 	}
 
+	void setGridPoints() {
+		for (int i = 0; i < transformInfo.xGridCoords.Length; i++) {
+			for (int j = 0; j < transformInfo.yGridCoords.Length; j++) {
+				gridPoints.Add(new Vector2(transformInfo.xGridCoords[i], transformInfo.yGridCoords[j]));
+			}
+		}
+	}
+
 	IEnumerator spawnAndDestroySweets() {
 		for (;;) {
+			spawnNewGridPoints();
 			spawnNewSweet();
 			yield return new WaitForSeconds(spawnFrequency);
+		}
+	}
+
+	void spawnNewGridPoints() {
+		foreach (float xPoint in transformInfo.xGridCoords) {
+			gridPoints.Add(new Vector2(xPoint, initialYPos));
 		}
 	}
 
