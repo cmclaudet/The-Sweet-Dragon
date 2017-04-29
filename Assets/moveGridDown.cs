@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class moveGridDown : MonoBehaviour {
 	[HideInInspector]public float moveSpeed;
-	[HideInInspector]public GameObject[] gridPointObjects;
+	[HideInInspector]public List<GameObject> gridPointObjects;
 	// Update is called once per frame
 	void Start() {
-		gridPointObjects = GameObject.FindGameObjectsWithTag("gridPoint");
+		GameObject[] gridObjects = GameObject.FindGameObjectsWithTag("gridPoint");
+		foreach (GameObject gridObject in gridObjects) {
+			gridPointObjects.Add(gridObject);
+		}
 	}
 	void FixedUpdate () {
 		foreach (GameObject gridPointObject in gridPointObjects) {

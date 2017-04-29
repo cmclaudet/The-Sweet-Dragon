@@ -10,7 +10,6 @@ public class spawnSweets : MonoBehaviour {
 	private float spawnFrequency;
 	private float gridHeightWorld;
 	private float initialYPos;
-	private List<Vector2> gridPoints = new List<Vector2>();
 	// Use this for initialization
 	void Start () {
 		laneNumber = transformInfo.gridSize.x;
@@ -30,7 +29,9 @@ public class spawnSweets : MonoBehaviour {
 
 	void spawnNewGridPoints() {
 		foreach (float xPoint in transformInfo.xGridCoords) {
-			gridPoints.Add(new Vector2(xPoint, initialYPos));
+			GameObject newGridObject = new GameObject();
+			newGridObject.transform.position = new Vector3(xPoint, initialYPos, 0);
+			newGridObject.gameObject.tag = "gridPoint";
 		}
 	}
 
@@ -39,7 +40,6 @@ public class spawnSweets : MonoBehaviour {
 		sweetData thisSweetData = new sweetData(sweetParams.sweetTypeNames.Length, sweetParams.numberOfStages);
 		newSweet.GetComponent<sweetAttributes>().thisSweetData = thisSweetData;
 		newSweet.GetComponent<sweetAttributes>().thisSweetTypeStageImages = sweetParams.allImages[thisSweetData.type].stageImages;
-		newSweet.GetComponent<snapToGrid>().gridPoints = gridPoints;
 		newSweet.GetComponent<snapToGrid>().spawnFrequency = spawnFrequency;
 		setSweetInitialLocation(newSweet);
 		setSweetToGrid(newSweet);
