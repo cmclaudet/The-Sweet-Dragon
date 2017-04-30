@@ -46,9 +46,9 @@ public class levelData : MonoBehaviour {
 	void setYGridCoords() {
 		float gridHeightScreen = Screen.height/gridSize.y;
 		gridHeightWorld = Camera.main.ScreenToWorldPoint(new Vector3(0, (1.5f)*gridHeightScreen, 0)).y - Camera.main.ScreenToWorldPoint(new Vector3(0, (0.5f)*gridHeightScreen, 0)).y;
-		yGridCoords = new float[gridSize.y];
-		for (int i = 0; i < gridSize.y; i++) {
-			float gridScreenYPos = (0.5f+i)*gridHeightScreen;
+		yGridCoords = new float[gridSize.y + 2];
+		for (int i = 0; i <= gridSize.y + 1; i++) {
+			float gridScreenYPos = (-1.5f+i)*gridHeightScreen;
 			yGridCoords[i] = Camera.main.ScreenToWorldPoint(new Vector3(0, gridScreenYPos)).y;
 		}
 	}
