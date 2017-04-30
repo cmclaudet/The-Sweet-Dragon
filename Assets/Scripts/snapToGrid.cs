@@ -22,33 +22,10 @@ public class snapToGrid : MonoBehaviour {
 		dragOnHold[] objectsOnGridPoint = transform.parent.gameObject.GetComponentsInChildren<dragOnHold>();
 		if (objectsOnGridPoint.Length > 1) {
 			if (gameObject.CompareTag("sweet")) {
-				checkOnSweetCollision(objectsOnGridPoint[0].gameObject);
+				GetComponent<objectCollisionSweet>().collide(objectsOnGridPoint[0].transform);
 			} else {
-				if (objectsOnGridPoint[0].CompareTag("sweet")) {
-					Destroy(objectsOnGridPoint[0].gameObject);
-				} else {
-					Destroy(gameObject);
-				}
+				GetComponent<objectCollisionRock>().collide(objectsOnGridPoint[0].transform);
 			}
 		}
 	}
-
-	void checkOnSweetCollision(GameObject otherObject) {
-		if (otherObject.CompareTag("sweet")) {
-			if (otherObject.GetComponent<sweetAttributes>().thisSweetData.type == GetComponent<sweetAttributes>().thisSweetData.type) {
-				mergeSweets(otherObject.transform, gameObject.transform);
-			} else {
-				Destroy(gameObject);
-			}
-		} else {
-			Destroy(gameObject);
-		}
-	}
-
-	void mergeSweets(Transform sweet1, Transform sweet2) {
-		int newStage = sweet1.GetComponent<sweetAttributes>().thisSweetData.stage + sweet2.GetComponent<sweetAttributes>().thisSweetData.stage;
-		sweet1.GetComponent<sweetAttributes>().setNewStage(newStage);
-		Destroy(sweet2.gameObject);
-	}
-
 }
