@@ -6,6 +6,7 @@ using UnityEngine;
 public class levelData : MonoBehaviour {
 	public Grid gridSize;
 	public float gridMoveSpeed;
+	public float gridAcceleration;
 	public float rockSpawnChance;
 
 	public float[] xGridCoords{get; private set;}
@@ -30,6 +31,7 @@ public class levelData : MonoBehaviour {
 		setXGridCoords();
 		setYGridCoords();
 		GetComponent<moveGridDown>().moveSpeed = gridMoveSpeed;
+		GetComponent<moveGridDown>().acceleration = gridAcceleration;
 		setGridPoints();
 	}
 
