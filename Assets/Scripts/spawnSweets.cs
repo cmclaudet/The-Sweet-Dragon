@@ -32,8 +32,9 @@ public class spawnSweets : MonoBehaviour {
 		}
 	}
 
+	//add one frame of wait time so that move grid down script can find all grid point objects
 	IEnumerator spawnCountDown() {
-		yield return new WaitForSeconds(0.5f);
+		yield return null;
 		StartCoroutine(spawnAndDestroyGridPoints());
 	}
 
@@ -43,7 +44,6 @@ public class spawnSweets : MonoBehaviour {
 		for (int i = 0; i < xGridPoints.Length; i++) {
 			GameObject newGridObject = new GameObject();
 			newGridObject.transform.position = new Vector3(xGridPoints[i], initialYPos, 0);
-			newGridObject.gameObject.tag = "gridPoint";
 			transformInfo.GetComponent<moveGridDown>().gridPointObjects.Add(newGridObject);
 			newGridPointObjects[i] = newGridObject;
 		}
