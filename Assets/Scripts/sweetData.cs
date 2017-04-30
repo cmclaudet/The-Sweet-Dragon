@@ -11,7 +11,7 @@ public class sweetData {
 			return _stage;
 		} set {
 			if (value > _numberOfStages) {
-				Debug.Log("ERROR: Stage is too high!");
+				_stage = _numberOfStages;
 			} else {
 				_stage = value;
 			}

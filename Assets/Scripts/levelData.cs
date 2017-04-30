@@ -6,6 +6,7 @@ using UnityEngine;
 public class levelData : MonoBehaviour {
 	public Grid gridSize;
 	public float gridMoveSpeed;
+	public float rockSpawnChance;
 
 	public float[] xGridCoords{get; private set;}
 	public float[] yGridCoords{get; private set;}
@@ -84,6 +85,10 @@ public class levelData : MonoBehaviour {
 		if (gridMoveSpeed < 0) {
 			Debug.LogWarning("Move speed must be greater than 0.");
 			gridMoveSpeed *= -1;
+		}
+		if (rockSpawnChance < 0 || rockSpawnChance > 1) {
+			Debug.LogWarning("Rock spawn chance must be between 0 and 1.");
+			rockSpawnChance = 0;
 		}
 	}
 

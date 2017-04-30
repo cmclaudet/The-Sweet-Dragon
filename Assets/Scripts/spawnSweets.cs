@@ -6,6 +6,8 @@ public class spawnSweets : MonoBehaviour {
 	public allSweetInformation sweetParams;
 	public GameObject transformInfo;
 	public Transform sweetPrefab;
+	public Transform rockPrefab;
+	private float rockSpawnChance;
 	private int laneNumber;
 	private float spawnFrequency;
 	private float gridHeightWorld;
@@ -16,6 +18,7 @@ public class spawnSweets : MonoBehaviour {
 		laneNumber = transformInfo.GetComponent<levelData>().gridSize.x;
 		gridHeightWorld = transformInfo.GetComponent<levelData>().gridHeightWorld;
 		gridWidthWorld = transformInfo.GetComponent<levelData>().gridWidthWorld;
+		rockSpawnChance = transformInfo.GetComponent<levelData>().rockSpawnChance;
 		initialYPos = getInitialYPos();
 		spawnFrequency = getSpawnFrequency();
 		StartCoroutine(spawnCountDown());
@@ -43,21 +46,37 @@ public class spawnSweets : MonoBehaviour {
 			transformInfo.GetComponent<moveGridDown>().gridPointObjects.Add(newGridObject);
 			newGridPointObjects[i] = newGridObject;
 		}
-		spawnNewSweet(newGridPointObjects);
+		spawnNewObject(newGridPointObjects);
 	}
 
-	void spawnNewSweet(GameObject[] newGridPointObjects) {
-		Transform newSweet = Instantiate(sweetPrefab);
+	void spawnNewObject(GameObject[] newGridPointObjects) {
+		Transform newObject;
+		if (Random.Range(0, 1f) < rockSpawnChance) {
+			newObject = Instantiate(rockPrefab);
+		} else {
+			newObject = Instantiate(sweetPrefab);
+			setupSweetData(newObject);
+		}
+		setupGridSnappingData(newObject);
+		setObjectToGridPoint(newGridPointObjects, newObject);
+	}
+
+	void setupSweetData(Transform sweet) {
 		sweetData thisSweetData = new sweetData(sweetParams.sweetTypeNames.Length, sweetParams.numberOfStages);
-		newSweet.GetComponent<sweetAttributes>().thisSweetData = thisSweetData;
-		newSweet.GetComponent<sweetAttributes>().thisSweetTypeStageImages = sweetParams.allImages[thisSweetData.type].stageImages;
-		newSweet.GetComponent<snapToGrid>().gridPointObjects = transformInfo.GetComponent<moveGridDown>().gridPointObjects;
-		newSweet.GetComponent<snapToGrid>().laneNumber = laneNumber;
-		newSweet.GetComponent<snapToGrid>().gridSizeWorld = new Vector2(gridWidthWorld, gridHeightWorld);
-		
+		sweet.GetComponent<sweetAttributes>().thisSweetData = thisSweetData;
+		sweet.GetComponent<sweetAttributes>().thisSweetTypeStageImages = sweetParams.allImages[thisSweetData.type].stageImages;
+	}
+
+	void setupGridSnappingData(Transform laneObject) {
+		laneObject.GetComponent<snapToGrid>().gridPointObjects = transformInfo.GetComponent<moveGridDown>().gridPointObjects;
+		laneObject.GetComponent<snapToGrid>().laneNumber = laneNumber;
+		laneObject.GetComponent<snapToGrid>().gridSizeWorld = new Vector2(gridWidthWorld, gridHeightWorld);
+	}
+
+	void setObjectToGridPoint(GameObject[] gridPointObjects, Transform laneObject) {
 		int lane = Random.Range(0, laneNumber);
-		newSweet.transform.SetParent(newGridPointObjects[lane].transform);
-		newSweet.transform.localPosition = Vector3.zero;
+		laneObject.transform.SetParent(gridPointObjects[lane].transform);
+		laneObject.transform.localPosition = Vector3.zero;
 	}
 
 	float getInitialYPos() {
