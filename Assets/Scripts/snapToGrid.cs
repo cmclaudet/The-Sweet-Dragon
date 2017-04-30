@@ -6,34 +6,42 @@ public class snapToGrid : MonoBehaviour {
 	[HideInInspector]public List<GameObject> gridPointObjects;
 	[HideInInspector]public int laneNumber;
 	[HideInInspector]public Vector2 gridSizeWorld;
-	public void snapSweet() {
+	public void snapObject() {
 		for (int i = 0; i < gridPointObjects.Count; i++) {
 			if (transform.position.y > gridPointObjects[i].transform.position.y - gridSizeWorld.y/2 && transform.position.y < gridPointObjects[i].transform.position.y + gridSizeWorld.y/2 ) {
 				if (transform.position.x > gridPointObjects[i].transform.position.x - gridSizeWorld.x/2 && transform.position.x < gridPointObjects[i].transform.position.x + gridSizeWorld.x/2) {
 					transform.SetParent(gridPointObjects[i].transform);
 					transform.localPosition = Vector3.zero;
-					checkOtherSweets();
+					checkOtherObjects();
 				}
 			}
 		}
 	}
 
-	void checkOtherSweets() {
-		sweetAttributes[] sweetsOnGridPoint = transform.parent.gameObject.GetComponentsInChildren<sweetAttributes>();
-		if (sweetsOnGridPoint.Length > 1) {
-			if (sweetsOnGridPoint[0].CompareTag("sweet") && gameObject.CompareTag("sweet")) {
-				if (sweetsOnGridPoint[0].GetComponent<sweetAttributes>().thisSweetData.type == GetComponent<sweetAttributes>().thisSweetData.type) {
-					mergeSweets(sweetsOnGridPoint[0].transform, gameObject.transform);
+	void checkOtherObjects() {
+		dragOnHold[] objectsOnGridPoint = transform.parent.gameObject.GetComponentsInChildren<dragOnHold>();
+		if (objectsOnGridPoint.Length > 1) {
+			if (gameObject.CompareTag("sweet")) {
+				checkOnSweetCollision(objectsOnGridPoint[0].gameObject);
+			} else {
+				if (objectsOnGridPoint[0].CompareTag("sweet")) {
+					Destroy(objectsOnGridPoint[0].gameObject);
 				} else {
-					Destroy(transform.gameObject);
+					Destroy(gameObject);
 				}
-			} else if (sweetsOnGridPoint[0].CompareTag("sweet") && gameObject.CompareTag("rock")) {
-				Destroy(sweetsOnGridPoint[0].gameObject);
-			} else if (sweetsOnGridPoint[0].CompareTag("rock") && gameObject.CompareTag("sweet")) {
-				Destroy(gameObject);
+			}
+		}
+	}
+
+	void checkOnSweetCollision(GameObject otherObject) {
+		if (otherObject.CompareTag("sweet")) {
+			if (otherObject.GetComponent<sweetAttributes>().thisSweetData.type == GetComponent<sweetAttributes>().thisSweetData.type) {
+				mergeSweets(otherObject.transform, gameObject.transform);
 			} else {
 				Destroy(gameObject);
 			}
+		} else {
+			Destroy(gameObject);
 		}
 	}
 
