@@ -24,16 +24,17 @@ public class spawnSweets : MonoBehaviour {
 		StartCoroutine(spawnCountDown());
 	}
 
-	IEnumerator spawnAndDestroySweets() {
+	IEnumerator spawnAndDestroyGridPoints() {
 		for (;;) {
-			spawnNewGridPoints();	
+			spawnNewGridPoints();
+			removeOldGridPoints();
 			yield return new WaitForSeconds(spawnFrequency);
 		}
 	}
 
 	IEnumerator spawnCountDown() {
 		yield return new WaitForSeconds(0.5f);
-		StartCoroutine(spawnAndDestroySweets());
+		StartCoroutine(spawnAndDestroyGridPoints());
 	}
 
 	void spawnNewGridPoints() {
@@ -77,6 +78,13 @@ public class spawnSweets : MonoBehaviour {
 		int lane = Random.Range(0, laneNumber);
 		laneObject.transform.SetParent(gridPointObjects[lane].transform);
 		laneObject.transform.localPosition = Vector3.zero;
+	}
+
+	void removeOldGridPoints() {
+		for (int i = 0; i < laneNumber; i++) {
+			Destroy(transformInfo.GetComponent<moveGridDown>().gridPointObjects[i]);
+			transformInfo.GetComponent<moveGridDown>().gridPointObjects.RemoveAt(i);
+		}
 	}
 
 	float getInitialYPos() {
