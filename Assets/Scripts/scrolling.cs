@@ -8,7 +8,7 @@ public class scrolling : MonoBehaviour {
 
     void Start() {
         float gridMoveSpeed = thisLevelData.gridMoveSpeed;
-        float gridScrollSpeedRatio = 1f/0.09f;
+        float gridScrollSpeedRatio = 1f/0.091f;
         scrollSpeed = gridMoveSpeed/gridScrollSpeedRatio;
     }
 
