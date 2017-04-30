@@ -13,6 +13,7 @@ public class snapToGrid : MonoBehaviour {
 					transform.SetParent(gridPointObjects[i].transform);
 					transform.localPosition = Vector3.zero;
 					checkOtherObjects();
+					break;
 				}
 			}
 		}
