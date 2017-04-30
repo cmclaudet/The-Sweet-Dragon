@@ -7,8 +7,10 @@ public class dragOnHold : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (Input.touchCount > 0) {
-			detectInitialTouch();
-			dragObject();
+			if (Time.timeScale != 0) {
+				detectInitialTouch();
+				dragObject();
+			}
 		}
 	}
 
@@ -29,7 +31,7 @@ public class dragOnHold : MonoBehaviour {
 		if (dragging) {
 			Vector3 fingerPos = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
 			transform.position = new Vector3 (fingerPos.x, fingerPos.y, transform.position.z);
-			if (Input.GetTouch(0).phase == TouchPhase.Ended) {
+			if (Input.GetTouch(0).phase == TouchPhase.Ended || Time.timeScale == 0) {
 				dragging = false;
 				GetComponent<snapToGrid>().snapObject();
 			}
