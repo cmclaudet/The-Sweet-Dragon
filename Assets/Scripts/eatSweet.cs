@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/*Increments player score and displays bonus text when caterpillar eats a sweet
+  On eating a sweet at a maximum stage "max sweet!" bonus message is displayed
+  Score is rewritten each time a sweet is eaten.
+ */
 public class eatSweet : MonoBehaviour {
 	private int score;
 	public Text scoreText;
@@ -12,7 +16,7 @@ public class eatSweet : MonoBehaviour {
 		if (other.gameObject.CompareTag("sweet")) {
 			writeBonusText(other.GetComponent<sweetAttributes>().thisSweetData);
 			rewriteScore();
-			Destroy(other.gameObject);
+			Destroy(other.gameObject);	//destroy sweet on eating
 		}
 	}
 

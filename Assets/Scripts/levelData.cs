@@ -2,18 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//creates grid with set set in the inspector
+/*Contains data for the level grid
+  Grid dimensions are defined in the inspector
+  Generates grid point objects at centre of each cell based on these dimensions and screen size
+ */
 public class levelData : MonoBehaviour {
-	public Grid gridSize;
-	public float gridMoveSpeed;
-	public float rockSpawnChance;
+	public Grid gridSize;	//number of grid cells for both x and y dimensions
+	public float gridMoveSpeed;	//move speed of grid
+	public float rockSpawnChance;	//chance of spawning a rock instead of a sweet
 
-	public float[] xGridCoords{get; private set;}
-	public float[] yGridCoords{get; private set;}
-	public float gridWidthWorld{get; private set;}
-	public float gridHeightWorld{get; private set;}
+	public float[] xGridCoords{get; private set;}	//coordinates in world space of x positions of grid cell centres
+	public float[] yGridCoords{get; private set;}	//coordinates in world space of y positions of grid cell centres
+	public float gridWidthWorld{get; private set;}	//width of one grid cell in world space
+	public float gridHeightWorld{get; private set;}	//height of one grid cell in world space
 
-	[HideInInspector]public List<Vector2> gridPoints;
+	[HideInInspector]public List<Vector2> gridPoints;	//list of grid point coordinates
 
 	[System.Serializable]
 	public struct Grid {
@@ -34,7 +37,8 @@ public class levelData : MonoBehaviour {
 	}
 
 	void setXGridCoords() {
-		float gridWidthScreen = Screen.width/gridSize.x;
+		float gridWidthScreen = Screen.width/gridSize.x;	//grid width in screen space
+		//grid width world is equal to the difference of two adjacent x grid co-ordinates in world space
 		gridWidthWorld = Camera.main.ScreenToWorldPoint(new Vector3((1.5f)*gridWidthScreen, 0)).x - Camera.main.ScreenToWorldPoint(new Vector3((0.5f)*gridWidthScreen, 0)).x;
 		xGridCoords = new float[gridSize.x];
 		for (int i = 0; i < gridSize.x; i++) {
@@ -46,7 +50,7 @@ public class levelData : MonoBehaviour {
 	void setYGridCoords() {
 		float gridHeightScreen = Screen.height/gridSize.y;
 		gridHeightWorld = Camera.main.ScreenToWorldPoint(new Vector3(0, (1.5f)*gridHeightScreen, 0)).y - Camera.main.ScreenToWorldPoint(new Vector3(0, (0.5f)*gridHeightScreen, 0)).y;
-		yGridCoords = new float[gridSize.y + 2];
+		yGridCoords = new float[gridSize.y + 2];		//size is greater so that when old grid point objects are removed they are off of the screen
 		for (int i = 0; i <= gridSize.y + 1; i++) {
 			float gridScreenYPos = (-1.5f+i)*gridHeightScreen;
 			yGridCoords[i] = Camera.main.ScreenToWorldPoint(new Vector3(0, gridScreenYPos)).y;
@@ -63,10 +67,11 @@ public class levelData : MonoBehaviour {
 		}
 	}
 
+//creates new grid point object at centre of each grid cell
 	void createNewGridObject(Vector2 objectPos) {
 		GameObject gridPoint = new GameObject();
 		gridPoint.transform.position = new Vector3(objectPos.x, objectPos.y, 0);
-		gridPoint.gameObject.tag = "gridPoint";
+		gridPoint.gameObject.tag = "gridPoint";	//add a tag so that moveGridDown script may find all initial grid point objects and move these down
 	}
 
 	void OnValidate() {
