@@ -19,7 +19,19 @@ public class sweetData {
 	}
 	private int _numberOfStages;
 	public int sweetValue() {
-		return _stage;
+		if (this.atMaxStage()) {
+			return _stage*2;
+		} else {
+			return _stage;
+		}	
+	}
+
+	public bool atMaxStage() {
+		if (_stage == _numberOfStages) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public sweetData(int numberOfSweetTypes, int totalStages) {
