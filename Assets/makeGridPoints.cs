@@ -7,6 +7,7 @@ public class makeGridPoints : MonoBehaviour {
 	public float rockSpawnChance;
 	public Transform sweetPrefab;
 	public Transform rockPrefab;
+	[HideInInspector]public allSweetInformation sweetImageInfo;
 	// Use this for initialization
 	void Start () {
 		laneNumber = GridConstants.x;
@@ -19,26 +20,18 @@ public class makeGridPoints : MonoBehaviour {
 			newGridPoint.transform.SetParent(transform);
 			newGridPoint.transform.localPosition = new Vector3(gridWorldXPos, 0);
 		}
-		spawnRowObject();
-	}
-	
-	void spawnRowObject() {
-		Transform newObject;
-		if (Random.Range(0,1f) < rockSpawnChance) {
-			newObject = Instantiate(rockPrefab);
-		} else {
-			newObject = Instantiate(sweetPrefab);
+		if (GetComponent<spawnObject>() != null) {
+			setupSpawnObjectComponent();
+			GetComponent<spawnObject>().spawnRowObject();
 		}
-		setObjectLane(newObject);
 	}
 
-	void setObjectLane(Transform laneObject) {
-		int objectLane = Random.Range(0, laneNumber);
-		foreach (Transform gridPoint in transform) {
-			if (gridPoint.GetSiblingIndex() == objectLane) {
-				laneObject.SetParent(gridPoint);
-				break;
-			}
-		}
+	void setupSpawnObjectComponent() {
+		GetComponent<spawnObject>().rockPrefab = rockPrefab;
+		GetComponent<spawnObject>().sweetPrefab = sweetPrefab;
+		GetComponent<spawnObject>().rockSpawnChance = rockSpawnChance;
+		GetComponent<spawnObject>().sweetImageInfo = sweetImageInfo;
 	}
+	
+
 }

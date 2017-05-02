@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class spawnNewGridRows : MonoBehaviour {
 	[HideInInspector]public Transform gridRowPrefab;
+	[HideInInspector]public allSweetInformation sweetImageInfo;
 	private float moveSpeed;
 	private int gridYSize;
 	private float spawnPeriod;
@@ -40,6 +41,8 @@ public class spawnNewGridRows : MonoBehaviour {
 
 	void spawnNewGridRow() {
 		Transform newGridRow = Instantiate(gridRowPrefab);
+		newGridRow.GetComponent<makeGridPoints>().sweetImageInfo = sweetImageInfo;
+		newGridRow.gameObject.AddComponent<spawnObject>();
 		newGridRow.position = new Vector3(0, initialYPos);
 	}
 }

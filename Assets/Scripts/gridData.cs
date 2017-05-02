@@ -8,8 +8,9 @@ using UnityEngine;
  */
 public class gridData : MonoBehaviour {
 	public Grid gridSize;	//number of grid cells for both x and y dimensions
-    public Transform gridRow;
     public float moveSpeed;
+    public Transform gridRow;
+    public allSweetInformation sweetImageInfo;
 	public float[] yGridRowCoords{get; private set;}	//coordinates in world space of y positions of grid cell centres
 
 
@@ -29,6 +30,7 @@ public class gridData : MonoBehaviour {
 		setYGridRowCoords();
 		makeGridRows();
         GetComponent<spawnNewGridRows>().gridRowPrefab = gridRow;
+        GetComponent<spawnNewGridRows>().sweetImageInfo = sweetImageInfo;
 	}
 
     void setupGridConstants() {
@@ -49,6 +51,7 @@ public class gridData : MonoBehaviour {
 	void makeGridRows() {
 		for (int i = 0; i < yGridRowCoords.Length; i++) {
 			Transform newGridRow = Instantiate(gridRow);
+            newGridRow.GetComponent<makeGridPoints>().sweetImageInfo = sweetImageInfo;
             newGridRow.position = new Vector3(0, yGridRowCoords[i]);
 		}
 	}
