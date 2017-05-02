@@ -82,8 +82,8 @@ public class spawnSweets : MonoBehaviour {
 //passes grid data to new object so snapping is possible
 	void setupGridSnappingData(Transform laneObject) {
 //		laneObject.GetComponent<snapToGrid>().gridPointObjects = transformInfo.GetComponent<moveGridDown>().gridPointObjects;
-		laneObject.GetComponent<snapToGrid>().laneNumber = laneNumber;
-		laneObject.GetComponent<snapToGrid>().gridSizeWorld = new Vector2(gridWidthWorld, gridHeightWorld);
+//		laneObject.GetComponent<snapToGrid>().laneNumber = laneNumber;
+//		laneObject.GetComponent<snapToGrid>().gridSizeWorld = new Vector2(gridWidthWorld, gridHeightWorld);
 	}
 
 //set new object as child of one of the grid point objects so it moves down with the grid

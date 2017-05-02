@@ -36,6 +36,7 @@ public class gridData : MonoBehaviour {
     void setupGridConstants() {
         GridConstants.x = gridSize.x;
         GridConstants.y = gridSize.y;
+        GridConstants.gridSizeWorld = setGridSizeWorld();
         GridConstants.speed = moveSpeed;
     }
 
@@ -47,6 +48,19 @@ public class gridData : MonoBehaviour {
 			yGridRowCoords[i] = Camera.main.ScreenToWorldPoint(new Vector3(0, gridScreenYPos)).y;
 		}
 	}
+
+    Vector2 setGridSizeWorld() {
+        float gridHeightScreen = Screen.height/gridSize.y;
+        float gridYPos0 = Camera.main.ScreenToWorldPoint(new Vector3(0, (gridSize.y + 0.5f)*gridHeightScreen)).y;
+        float gridYPos1 = Camera.main.ScreenToWorldPoint(new Vector3(0, (gridSize.y - 0.5f)*gridHeightScreen)).y;
+        float gridHeightWorld = gridYPos0 - gridYPos1;
+
+        float gridWidthScreen = Screen.width/gridSize.x;
+        float gridXPos0 = Camera.main.ScreenToWorldPoint(new Vector3((gridSize.x + 0.5f)*gridWidthScreen, 0)).x;
+        float gridXPos1 = Camera.main.ScreenToWorldPoint(new Vector3((gridSize.x - 0.5f)*gridWidthScreen, 0)).x;
+        float gridWidthWorld = gridXPos0 - gridXPos1;
+        return new Vector2(gridWidthWorld,gridHeightWorld);
+    }
 
 	void makeGridRows() {
 		for (int i = 0; i < yGridRowCoords.Length; i++) {

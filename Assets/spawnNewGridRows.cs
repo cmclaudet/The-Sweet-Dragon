@@ -33,9 +33,7 @@ public class spawnNewGridRows : MonoBehaviour {
 	}
 
 	float setSpawnPeriod() {
-		float firstGridPointYPos = Camera.main.ScreenToWorldPoint(new Vector3(0, (gridYSize - 0.5f)*gridHeightScreen)).y;
-		float gridCellHeightWorld = initialYPos - firstGridPointYPos;
-		float spawnPeriod = gridCellHeightWorld/moveSpeed;
+		float spawnPeriod = GridConstants.gridSizeWorld.y/moveSpeed;
 		return spawnPeriod;
 	}
 
