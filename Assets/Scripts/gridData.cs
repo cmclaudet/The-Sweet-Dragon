@@ -9,6 +9,7 @@ using UnityEngine;
 public class gridData : MonoBehaviour {
 	public Grid gridSize;	//number of grid cells for both x and y dimensions
     public float moveSpeed;
+	public float acceleration;
     public Transform gridRow;
     public allSweetInformation sweetImageInfo;
 	public float[] yGridRowCoords{get; private set;}	//coordinates in world space of y positions of grid cell centres
@@ -38,6 +39,7 @@ public class gridData : MonoBehaviour {
         GridConstants.y = gridSize.y;
         GridConstants.gridSizeWorld = setGridSizeWorld();
         GridConstants.speed = moveSpeed;
+		GridConstants.acceleration = acceleration;
     }
 
 	void setYGridRowCoords() {

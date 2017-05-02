@@ -5,14 +5,12 @@ using UnityEngine;
 public class spawnNewGridRows : MonoBehaviour {
 	[HideInInspector]public Transform gridRowPrefab;
 	[HideInInspector]public allSweetInformation sweetImageInfo;
-	private float moveSpeed;
 	private int gridYSize;
 	private float spawnPeriod;
 	private float initialYPos;
 	private float gridHeightScreen;
 	// Use this for initialization
 	void Start () {
-		moveSpeed = GridConstants.speed;
 		gridYSize = GridConstants.y;
 		gridHeightScreen = Screen.height/gridYSize;
 		initialYPos = setInitialYPos();
@@ -25,6 +23,7 @@ public class spawnNewGridRows : MonoBehaviour {
 			spawnNewGridRow();
 			destroyOldGridRow();
 			yield return new WaitForSeconds(spawnPeriod);
+			spawnPeriod = setSpawnPeriod();
 		}
 	}
 
@@ -34,7 +33,7 @@ public class spawnNewGridRows : MonoBehaviour {
 	}
 
 	float setSpawnPeriod() {
-		float spawnPeriod = GridConstants.gridSizeWorld.y/moveSpeed;
+		float spawnPeriod = GridConstants.gridSizeWorld.y/GridConstants.speed;
 		return spawnPeriod;
 	}
 
