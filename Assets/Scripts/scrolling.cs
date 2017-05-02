@@ -5,13 +5,13 @@ using System.Collections;
  */
 public class scrolling : MonoBehaviour {
 
-    public levelData thisLevelData;
-    private float scrollSpeed;
+//    public levelData thisLevelData;
+    private float scrollSpeed = 0.09f;
 
     void Start() {
-        float gridMoveSpeed = thisLevelData.gridMoveSpeed;
-        float gridScrollSpeedRatio = 1f/0.091f;
-        scrollSpeed = gridMoveSpeed/gridScrollSpeedRatio;
+  //      float gridMoveSpeed = thisLevelData.gridMoveSpeed;
+  //      float gridScrollSpeedRatio = 1f/0.091f;
+  //      scrollSpeed = gridMoveSpeed/gridScrollSpeedRatio;
     }
 
     // Make texture on quad repeat itself for infinitely scrolling background

@@ -5,20 +5,27 @@ using UnityEngine;
   If grid point object already has a child collision logic is executed depending on the nature of this object
  */
 public class snapToGrid : MonoBehaviour {
-	[HideInInspector]public List<GameObject> gridPointObjects;
-	[HideInInspector]public int laneNumber;
-	[HideInInspector]public Vector2 gridSizeWorld;	//size of one grid cell in world space
+	private GameObject grid;
+	private Vector2 gridSizeWorld;	//size of one grid cell in world space
+
+	void Start() {
+		gridSizeWorld = GridConstants.gridSizeWorld;
+		grid = ((transform.parent).parent).parent.gameObject;
+	}
 	public void snapObject() {
-		for (int i = 0; i < gridPointObjects.Count; i++) {
+		foreach (Transform gridRow in grid.transform) {
 			//if object is between the left and right side of a grid point object and the top and bottom bounds of the grid point object it snaps towards it
 			//calculated using the position of the grid point and size of a grid cell in world space
-			if (transform.position.y > gridPointObjects[i].transform.position.y - gridSizeWorld.y/2 && transform.position.y < gridPointObjects[i].transform.position.y + gridSizeWorld.y/2 ) {
-				if (transform.position.x > gridPointObjects[i].transform.position.x - gridSizeWorld.x/2 && transform.position.x < gridPointObjects[i].transform.position.x + gridSizeWorld.x/2) {
-					transform.SetParent(gridPointObjects[i].transform);
-					transform.localPosition = Vector3.zero;
-					checkOtherObjects();
-					break;
+			if (transform.position.y > gridRow.transform.position.y - gridSizeWorld.y/2 && transform.position.y < gridRow.transform.position.y + gridSizeWorld.y/2 ) {
+				foreach (Transform gridPoint in gridRow) {
+					if (transform.position.x > gridPoint.transform.position.x - gridSizeWorld.x/2 && transform.position.x < gridPoint.transform.position.x + gridSizeWorld.x/2) {
+						transform.SetParent(gridPoint.transform);
+						transform.localPosition = Vector3.zero;
+						checkOtherObjects();
+						break;
+					}
 				}
+				break;
 			}
 		}
 	}
