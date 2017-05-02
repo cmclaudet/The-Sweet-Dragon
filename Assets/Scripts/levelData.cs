@@ -32,7 +32,6 @@ public class levelData : MonoBehaviour {
 	void Awake() {
 		setXGridCoords();
 		setYGridCoords();
-		GetComponent<moveGridDown>().moveSpeed = gridMoveSpeed;
 		setGridPoints();
 	}
 

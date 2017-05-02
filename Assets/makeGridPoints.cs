@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class makeGridPoints : MonoBehaviour {
-	[HideInInspector]public int laneNumber;
-	[HideInInspector]public float rockSpawnChance;
+	private int laneNumber;
+	public float rockSpawnChance;
 	public Transform sweetPrefab;
 	public Transform rockPrefab;
 	// Use this for initialization
 	void Start () {
+		laneNumber = GridConstants.x;
+
 		float gridCellWidthScreen = Screen.width/(float)laneNumber;
 		for (int i = 0; i < laneNumber; i++) {
 			float gridScreenXPos = (i+0.5f)*gridCellWidthScreen;

@@ -9,8 +9,8 @@ using UnityEngine;
 public class gridData : MonoBehaviour {
 	public Grid gridSize;	//number of grid cells for both x and y dimensions
     public Transform gridRow;
+    public float moveSpeed;
 	public float[] yGridRowCoords{get; private set;}	//coordinates in world space of y positions of grid cell centres
-	public float gridHeightWorld{get; private set;}	//height of one grid cell in world space
 
 
 	[System.Serializable]
@@ -25,13 +25,20 @@ public class gridData : MonoBehaviour {
 	}
 
 	void Awake() {
+        setupGridConstants();
 		setYGridRowCoords();
 		makeGridRows();
+        GetComponent<spawnNewGridRows>().gridRowPrefab = gridRow;
 	}
+
+    void setupGridConstants() {
+        GridConstants.x = gridSize.x;
+        GridConstants.y = gridSize.y;
+        GridConstants.speed = moveSpeed;
+    }
 
 	void setYGridRowCoords() {
 		float gridHeightScreen = Screen.height/gridSize.y;
-		float initialYPos = (gridSize.y + 0.5f)*gridHeightScreen;
 		yGridRowCoords = new float[gridSize.y + 2];		//size is greater so that when old grid point objects are removed they are off of the screen
 		for (int i = 0; i <= gridSize.y + 1; i++) {
 			float gridScreenYPos = (-1.5f+i)*gridHeightScreen;
@@ -43,7 +50,6 @@ public class gridData : MonoBehaviour {
 		for (int i = 0; i < yGridRowCoords.Length; i++) {
 			Transform newGridRow = Instantiate(gridRow);
             newGridRow.position = new Vector3(0, yGridRowCoords[i]);
-			newGridRow.GetComponent<makeGridPoints>().laneNumber = gridSize.x;
 		}
 	}
 

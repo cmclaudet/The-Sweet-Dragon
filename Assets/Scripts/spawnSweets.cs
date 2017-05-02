@@ -53,7 +53,7 @@ public class spawnSweets : MonoBehaviour {
 		for (int i = 0; i < xGridPoints.Length; i++) {
 			GameObject newGridObject = new GameObject();
 			newGridObject.transform.position = new Vector3(xGridPoints[i], initialYPos, 0);
-			transformInfo.GetComponent<moveGridDown>().gridPointObjects.Add(newGridObject);
+//			transformInfo.GetComponent<moveGridDown>().gridPointObjects.Add(newGridObject);
 			newGridPointObjects[i] = newGridObject;
 		}
 		spawnNewObject(newGridPointObjects);
@@ -81,7 +81,7 @@ public class spawnSweets : MonoBehaviour {
 
 //passes grid data to new object so snapping is possible
 	void setupGridSnappingData(Transform laneObject) {
-		laneObject.GetComponent<snapToGrid>().gridPointObjects = transformInfo.GetComponent<moveGridDown>().gridPointObjects;
+//		laneObject.GetComponent<snapToGrid>().gridPointObjects = transformInfo.GetComponent<moveGridDown>().gridPointObjects;
 		laneObject.GetComponent<snapToGrid>().laneNumber = laneNumber;
 		laneObject.GetComponent<snapToGrid>().gridSizeWorld = new Vector2(gridWidthWorld, gridHeightWorld);
 	}
@@ -96,8 +96,8 @@ public class spawnSweets : MonoBehaviour {
 //removes first row in list of grid point objects as these will be off the screen
 	void removeOldGridPoints() {
 		for (int i = 0; i < laneNumber; i++) {
-			Destroy(transformInfo.GetComponent<moveGridDown>().gridPointObjects[i]);
-			transformInfo.GetComponent<moveGridDown>().gridPointObjects.RemoveAt(i);
+//			Destroy(transformInfo.GetComponent<moveGridDown>().gridPointObjects[i]);
+//			transformInfo.GetComponent<moveGridDown>().gridPointObjects.RemoveAt(i);
 		}
 	}
 
