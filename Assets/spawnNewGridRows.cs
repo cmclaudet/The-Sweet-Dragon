@@ -43,6 +43,7 @@ public class spawnNewGridRows : MonoBehaviour {
 		Transform newGridRow = Instantiate(gridRowPrefab);
 		newGridRow.GetComponent<makeGridPoints>().sweetImageInfo = sweetImageInfo;
 		newGridRow.gameObject.AddComponent<spawnObject>();
-		newGridRow.position = new Vector3(0, initialYPos);
+		newGridRow.SetParent(transform);
+		newGridRow.localPosition = new Vector3(0, initialYPos);
 	}
 }

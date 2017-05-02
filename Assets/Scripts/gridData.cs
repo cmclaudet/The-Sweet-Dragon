@@ -52,7 +52,8 @@ public class gridData : MonoBehaviour {
 		for (int i = 0; i < yGridRowCoords.Length; i++) {
 			Transform newGridRow = Instantiate(gridRow);
             newGridRow.GetComponent<makeGridPoints>().sweetImageInfo = sweetImageInfo;
-            newGridRow.position = new Vector3(0, yGridRowCoords[i]);
+            newGridRow.SetParent(transform);
+            newGridRow.localPosition = new Vector3(0, yGridRowCoords[i]);
 		}
 	}
 
