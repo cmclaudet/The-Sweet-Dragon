@@ -23,6 +23,7 @@ public class spawnNewGridRows : MonoBehaviour {
 	IEnumerator spawnAndDestroyGridRows() {
 		for (;;) {
 			spawnNewGridRow();
+			destroyOldGridRow();
 			yield return new WaitForSeconds(spawnPeriod);
 		}
 	}
@@ -43,5 +44,9 @@ public class spawnNewGridRows : MonoBehaviour {
 		newGridRow.gameObject.AddComponent<spawnObject>();
 		newGridRow.SetParent(transform);
 		newGridRow.localPosition = new Vector3(0, initialYPos);
+	}
+
+	void destroyOldGridRow() {
+		Destroy(transform.GetChild(0).gameObject);
 	}
 }
