@@ -8,7 +8,6 @@ public class moveGridDown : MonoBehaviour {
 	void Start() {
 		acceleration = GridConstants.acceleration;
 		moveSpeed = GridConstants.speed;
-		StartCoroutine(checkSpeed());
 	}
 
 	void FixedUpdate() {
@@ -18,12 +17,5 @@ public class moveGridDown : MonoBehaviour {
 			gridRow.transform.position = new Vector3(gridRow.transform.position.x, gridRow.transform.position.y - moveSpeed*Time.fixedDeltaTime);
 		}
 		
-	}
-
-	IEnumerator checkSpeed() {
-		for (;;) {
-			Debug.Log(moveSpeed);
-			yield return new WaitForSeconds(1f);
-		}
 	}
 }
