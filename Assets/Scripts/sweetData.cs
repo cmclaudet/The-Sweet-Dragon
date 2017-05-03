@@ -24,7 +24,7 @@ public class sweetData {
 		if (this.atMaxStage()) {		//if sweet is at max stage it is worth double. Encourages players to get their sweets to max stage.
 			return _stage*2;
 		} else {
-			return _stage;
+			return _stage*2-1;
 		}	
 	}
 
